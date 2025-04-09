@@ -1,0 +1,73 @@
+{
+  "branches": ["main"],
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          { "type": "feat", "release": "minor" },
+          { "type": "fix", "release": "patch" },
+          { "type": "perf", "release": "patch" },
+          { "type": "docs", "release": "patch" },
+          { "type": "refactor", "release": "patch" },
+          { "type": "chore", "release": "patch" },
+          { "type": "style", "release": false },
+          { "type": "build", "release": false },
+          { "type": "ci", "release": false }
+        ],
+        "presetConfig": {
+          "types": [
+            { "type": "feat", "section": "✨ Features" },
+            { "type": "fix", "section": "🐛 Bug Fixes" },
+            { "type": "perf", "section": "🚀 Performance Improvements" },
+            { "type": "revert", "section": "↩️ Reverts" },
+            { "type": "docs", "section": "📝 Documentation" },
+            { "type": "style", "section": "💄 Styles" },
+            { "type": "refactor", "section": "♻️ Code Refactoring" },
+            { "type": "test", "section": "✅ Tests" },
+            { "type": "build", "section": "👷 Build System" },
+            { "type": "ci", "section": "🔧 Continuous Integration" },
+            { "type": "chore", "section": "🔨 Chores" },
+            { "type": "revert", "section": "⏪ Reverts" },
+            { "type": "init", "hidden": true },
+            { "type": "wip", "hidden": true }
+          ]
+        }
+      }
+    ],
+    "@semantic-release/release-notes-generator",
+    [
+      "@semantic-release/changelog",
+      {
+        "changelogFile": "CHANGELOG.md",
+        "changelogTitle": "# Changelog\n\nAll the important changes of the project will be recorded here."
+      }
+    ],
+    [
+      "@semantic-release/npm",
+      {
+        "npmPublish": true,
+        "pkgRoot": "dist",
+        "tarballDir": "dist",
+        "tarballFilename": "${name}-${version}.tgz"
+      }
+    ],
+    [
+      "@semantic-release/git",
+      {
+        "assets": ["CHANGELOG.md", "package.json", "dist/*.tgz"],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          { "path": "dist/*.tgz", "label": "Release" },
+          { "path": "CHANGELOG.md", "label": "Changelog" }
+        ]
+      }
+    ]
+  ]
+}
